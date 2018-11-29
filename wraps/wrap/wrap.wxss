@@ -1,0 +1,19 @@
+/* pages/index/index.wxss */
+.vuc-wrap{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.vuc-wrap-inner{
+  position: relative;
+  height: 100%;
+  display: flex;
+  box-orient:vertical;
+  flex-direction:column;
+}
+.vuc-content{
+  flex: 1 1 0;
+  text-align: center;
+  position: relative;
+}

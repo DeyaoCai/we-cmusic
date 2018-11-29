@@ -1,0 +1,11 @@
+/* pages/index/index.wxss */
+page{
+  height: 100%;
+  font-size: 20px;
+  position: fixed;
+  width: 100%;
+}
+.scroll-cont{
+  background-color: green;
+  font-size: .6rem;
+}

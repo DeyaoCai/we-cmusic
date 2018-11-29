@@ -1,0 +1,11 @@
+<!--pages/index/index.wxml-->
+<wrap>
+  <header slot="header">
+    <view slot='title'>title</view>
+    <view slot='left' class='btn'> + </view>
+    <view slot='right' class='btn'> + </view>
+  </header>
+  <scroll config="{{scrollConf}}" slot="content"><view class="scroll-cont" slot="cont">content</view></scroll>
+  <view slot="footer">footer</view>
+</wrap>
+  

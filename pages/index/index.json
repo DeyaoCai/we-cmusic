@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "wrap": "../../wraps/wrap/wrap",
+    "header": "../../components/header/header",
+    "scroll": "../../components/scroll/scroll"
+  }
+}
