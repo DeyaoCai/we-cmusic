@@ -1,6 +1,9 @@
 Page({
   data: {
-    scrollConf: { direction: 'y' }
+    scrollConf: { 
+      derction: 'y',
+      itemNum: {x:1, y:1},
+    }
   },
   onLoad: function (options) {
 

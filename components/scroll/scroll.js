@@ -9,6 +9,23 @@ Component({
       value: {},
     }
   },
+  attached(){
+    const {data} = this;
+console.log(5456)
+    data.drag.prevent = data.config && data.config.derction ? { "": "", x: "y", y: "x", xy: "xy" }[data.config.derction] : "";
+    data.confg || (data.confg = {});
+    const conf = data.config;
+
+    conf.index || (conf.index = {});
+    const index = conf.index;
+    index.x || (index.x = 0);
+    index.y || (index.y = 0);
+
+    conf.itemNum || (conf.itemNum = {});
+    const itemNum = conf.itemNum;
+    itemNum.x || (itemNum.x = 1);
+    itemNum.y || (itemNum.y = 1);
+  },
   data: {
     innerStyle: "",
     drag: new Drag(),
@@ -29,6 +46,16 @@ Component({
   methods: {
     touchEv(ev) {
       const {data} = this;
+      if (!data.$el || !data.$ele){
+        const query = wx.createSelectorQuery().in(this);
+        data.$el || query.select('.vuc-scroll').boundingClientRect(function ($el) {
+          data.$el= $el;
+        }).exec();
+        data.$ele || query.select('.vuc-scroll-wrap').boundingClientRect(function ($ele) {
+          data.$ele = $ele;
+        }).exec();
+      }
+
       if (data.animatingT || data.animatingB) return;
       data.hasOnEndEv = false;
       if (data._isLoading) return;
@@ -85,32 +112,17 @@ Component({
     },
     cacheWrapSize() {
       const { data } = this;
-
-      var query = wx.createSelectorQuery();
-      //选择id
-      var that = this;
-      query.select('.vuc-scroll-wrap').boundingClientRect(function (rect) {
-        console.log(rect)
-      }).exec();
-      console.log(query)
-      const $el = this.$el;
-      
-      if (!$el) return { wrap: { x: 0, y: 0 }, inner: { x: 0, y: 0 } };
-      const $ele = $el.getElementsByClassName("vuc-scroll-wrap")[0];
-      const wrap = { x: $el.offsetWidth, y: $el.offsetHeight }
-      // x 周因为 元素最大为100%，顾需要手动计算 y轴不用
-      let ix = $ele.offsetWidth * data.config.itemNum.x;
-      let iy = $ele.offsetHeight;
-
-      // 当不能根据容器的体积计算出滚动长度的时候， 我们需要根据他的子节点的宽度来让其滚动
-      if (data.config.isGetInnerSizeByChild) {
-        const child = $ele.children[0];
-        ix = child ? child.offsetWidth : 0;
-        iy = child ? child.offsetHeight : 0;
+      const $el = data.$el;
+      const $ele = data.$ele;
+      if (!$ele || !$el) {
+        return { wrap: { x: 0, y: 0 }, inner: { x: 0, y: 0 } }
       }
+      const wrap = { x: $el.width, y: $el.height }
+      let ix = $ele.width * data.config.itemNum.x;
+      let iy = $ele.height;
       const inner = { x: ix, y: iy };
       data.catchedWrapsize = { wrap, inner };
-      return this.catchedWrapsize;
+      return data.catchedWrapsize;
     },
     getWrapSize() { return this.data.catchedWrapsize || this.cacheWrapSize(); },
     touchingLimit(pos, dVal) {
@@ -198,6 +210,7 @@ Component({
           data.animatingT = false;
           data.animatingB = false;
           data.animating = true;
+          this.setData({ innerStyle: this.innerStyle() });
         }, ti * 1000)
       }
       return `
