@@ -5,7 +5,14 @@
     <view slot='left' class='btn'> + </view>
     <view slot='right' class='btn'> + </view>
   </header>
-  <scroll config="{{scrollConf}}" slot="content"><view class="scroll-cont" slot="cont">content</view></scroll>
+  <scroll config="{{scrollConf}}" slot="content">
+    <view class="scroll-cont" slot="cont">
+      <view bindtap='testShow'>content</view>
+      <popup class="pop-conf" config="{{popConf}}" bindmyev="myev">
+        <view slot="cont">4564564564</view>
+      </popup>
+    </view>
+  </scroll>
   <view slot="footer">footer</view>
 </wrap>
   

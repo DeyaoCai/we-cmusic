@@ -14,7 +14,7 @@
 	"compileType": "miniprogram",
 	"libVersion": "2.4.1",
 	"appid": "wx2aa70a73d7fa9b29",
-	"projectname": "cmusic",
+	"projectname": "wx-cmusic",
 	"debugOptions": {
 		"hidedInDevtools": []
 	},

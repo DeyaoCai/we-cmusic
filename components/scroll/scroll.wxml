@@ -1,18 +1,8 @@
-<div
+<view
     class="vuc-scroll"
      bindtouchstart="touchEv"
      bindtouchmove="moveEv"
      bindtouchend="endEv"
   >
-    <!-- <div 
-      class="vue-scroll-reflash" 
-      wx-if="{{needReflash && !(animating || animatingT)}}">{{showReflashTip ? "松开刷新" : "继续下拉"}}
-    </div>
-    <div 
-      class="vue-scroll-loadmore" 
-      :class="{active:!canLoadMore||(canLoadMore&&showLoadMoreTip)}" 
-      v-if="needLoading && !(animating || animatingB)">
-      {{canLoadMore? showLoadMoreTip ? "松开加载" : "继续上拉" :"无更多数据"}}
-    </div> -->
-    <div style="{{innerStyle}}" class="vuc-scroll-wrap"><slot name="cont"></slot></div>
-  </div>
+    <view style="{{innerStyle}}" class="vuc-scroll-wrap"><slot name="cont"></slot></view>
+  </view>

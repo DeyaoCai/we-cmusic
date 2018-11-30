@@ -11,7 +11,6 @@ Component({
   },
   attached(){
     const {data} = this;
-console.log(5456)
     data.drag.prevent = data.config && data.config.derction ? { "": "", x: "y", y: "x", xy: "xy" }[data.config.derction] : "";
     data.confg || (data.confg = {});
     const conf = data.config;

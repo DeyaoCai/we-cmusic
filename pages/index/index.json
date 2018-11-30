@@ -2,6 +2,7 @@
   "usingComponents": {
     "wrap": "../../wraps/wrap/wrap",
     "header": "../../components/header/header",
+    "popup": "../../components/popup/popup",
     "scroll": "../../components/scroll/scroll"
   }
 }
