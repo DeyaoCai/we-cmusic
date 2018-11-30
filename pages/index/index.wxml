@@ -5,14 +5,50 @@
     <view slot='left' class='btn'> + </view>
     <view slot='right' class='btn'> + </view>
   </header>
-  <scroll config="{{scrollConf}}" slot="content">
-    <view class="scroll-cont" slot="cont">
-      <view bindtap='testShow'>content</view>
-      <popup class="pop-conf" config="{{popConf}}" bindmyev="myev">
-        <view slot="cont">4564564564</view>
-      </popup>
-    </view>
-  </scroll>
-  <view slot="footer">footer</view>
+  <view slot="content">
+    <scroll config="{{scrollConf}}" class="tab-scroll" bindupdataIndex="updataIndex">
+      <view class="scroll-cont" slot="cont">
+      <scroll-view scroll-y>
+        <view slot="cont" class="discover-page">
+
+          <view class="func-list">
+            <view bindtap="recommendSongs">每日推荐</view>
+            <view>歌单</view>
+            <view>排行榜</view>
+            <view bindtap="loginCmusic">登录</view>
+          </view>
+
+
+          <view class="song-list" wx:for="{{newSongList}}" wx:key="{{index}}" bindtap='setSrc' data-conf="{{item}}">
+            <image src="{{item.src}}"></image>
+            <view>
+              <view class="song-cont">
+                <view class="song-name">{{item.name}}</view>
+                <view class="song-artists">{{item.artists}}</view>
+              </view>
+              <view class="song-reason">{{item.reason}}</view>
+            </view>
+          </view>
+        
+        </view>
+      </scroll-view>
+      <scroll-view>
+        <view slot="cont" bindtap='testShow' class="my-page">
+          content
+        </view>
+      </scroll-view>
+      
+        
+        
+      </view>
+    </scroll>
+    <popup class="pop-conf" config="{{popConf}}" bindmyev="myev">
+      <view slot="cont">4564564564</view>
+    </popup>
+  </view>
+  <view slot="footer" class="vuc-tab">
+    <view bindtap="setIndex0" class="{{scrollConf.index.x === 0 ? 'active' : ''}}">发现</view>
+    <view bindtap="setIndex1" class="{{scrollConf.index.x === 1 ? 'active' : ''}}">我的</view>
+  </view>
 </wrap>
   

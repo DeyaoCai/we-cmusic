@@ -4,5 +4,5 @@
      bindtouchmove="moveEv"
      bindtouchend="endEv"
   >
-    <view style="{{innerStyle}}" class="vuc-scroll-wrap"><slot name="cont"></slot></view>
+    <view style="{{innerStyle}}" class="vuc-scroll-wrap {{config.derction}}"><slot name="cont"></slot></view>
   </view>

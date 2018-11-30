@@ -12,6 +12,7 @@ Component({
   attached(){
     const {data} = this;
     data.drag.prevent = data.config && data.config.derction ? { "": "", x: "y", y: "x", xy: "xy" }[data.config.derction] : "";
+
     data.confg || (data.confg = {});
     const conf = data.config;
 
@@ -25,6 +26,19 @@ Component({
     itemNum.x || (itemNum.x = 1);
     itemNum.y || (itemNum.y = 1);
   },
+  ready(){
+    const {data} = this;
+    if (!data.$el || !data.$ele) {
+      const query = wx.createSelectorQuery().in(this);
+      data.$el || query.select('.vuc-scroll').boundingClientRect(function ($el) {
+        data.$el = $el;
+      }).exec();
+      data.$ele || query.select('.vuc-scroll-wrap').boundingClientRect(function ($ele) {
+        data.$ele = $ele;
+      }).exec();
+    }
+    this.cacheWrapSize();
+  },
   data: {
     innerStyle: "",
     drag: new Drag(),
@@ -37,7 +51,7 @@ Component({
     isShowingTip: false,
     _isLoading: false,
     hasOnEndEv: false,
-    catchedWrapsize: null,
+    cachedWrapsize: null,
     animatingT: false,
     animatingB: false,
     animating: false,
@@ -120,18 +134,46 @@ Component({
       let ix = $ele.width * data.config.itemNum.x;
       let iy = $ele.height;
       const inner = { x: ix, y: iy };
-      data.catchedWrapsize = { wrap, inner };
-      return data.catchedWrapsize;
+      data.cachedWrapsize = { wrap, inner };
+      return data.cachedWrapsize;
     },
-    getWrapSize() { return this.data.catchedWrapsize || this.cacheWrapSize(); },
+    getWrapSize() { return this.data.cachedWrapsize || this.cacheWrapSize(); },
     touchingLimit(pos, dVal) {
       const { data } = this;
       this.callXTouchingEndFn(pos, dVal);// x 超界回调
       this.callYTouchingEndFn(pos, dVal);// y越界回调
       this.touchingDamp(pos, dVal);// 超界有阻尼
     },
+    setIndex(obj) {
+      const { data } = this;
+      const index = {
+        x: obj.x !== undefined ? obj.x : (data.config.index.x || 0),
+        y: obj.y !== undefined ? obj.y : (data.config.index.y || 0),
+      }
+      const wrap = this.cacheWrapSize().wrap;
+      const width = wrap.x;
+      const height = wrap.y;
+      const x = -index.x * width;
+      const y = -index.y * height;
+      this.setData({
+        posi: { x: x, y: y },
+        nowPosi: { x: x, y: y },
+      });
+      this.setData({ innerStyle: this.innerStyle() });
+    },
+    handelTakeOneStepAtATime(posi){
+      const {data} = this;
+      if (data.config.takeOneStepAtATime) {
+        const wrap = this.cacheWrapSize().wrap;
+        const width = wrap.x;
+        const height = wrap.y;
+        posi.x = Math.round(posi.x / width) * width;
+        posi.y = Math.round(posi.y / height) * height;
+      }
+    },
     normalLimit(pos, dVal) {
       const { data } = this;
+      this.handelTakeOneStepAtATime(pos);
       // 越界限制
       if (pos.x > 0) pos.x = 0;
       if (dVal.x > 0) pos.x = 0;
@@ -192,12 +234,26 @@ Component({
       const touching = data.drag.isTouching;
       const pos = data.nowPosi;
       const posi = data.posi;
+      const config = data.config;
+      const index = config.index;
+
       const offset = Drag.prototype.getOffset.call(data.drag);
       const offsetY = pos.y - posi.y - offset.y;
 
       let ti = Math.sqrt(Math.sqrt(Math.sqrt(Math.sqrt(Math.abs(offsetY * data.rate)))));
       ti < .3 && (ti = .3);
-      touching || (data.posi = { x: pos.x, y: pos.y });
+      if (!touching) {
+        data.posi = { x: pos.x, y: pos.y };
+        const wrap = this.cacheWrapSize().wrap;
+        const width = wrap.x;
+        const height = wrap.y;
+        const x = Math.abs(Math.round(pos.x / width));
+        const y = Math.abs(Math.round(pos.y / height));
+        index.x = x;
+        index.y = y;
+        this.triggerEvent("updataIndex", { x: index.x, y: index.y });
+        this.setData({ config: config });
+      }
       // ti > 1 && (ti = 1);
       if (data.config.takeOneStepAtATime) ti = .3;
       (data.isShowingTip || data.animating) && (ti = .3);
