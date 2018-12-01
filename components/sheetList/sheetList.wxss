@@ -1,32 +1,32 @@
-.song-list{
+.sheet-list{
   display: flex;
   background-color: #fff;
   padding: .65rem;
   border-top: 1px dashed #eee;
 }
-.song-list>view{
+.sheet-list>view{
   text-align: left;
   flex: 1;
 }
-.song-list>image{
+.sheet-list>image{
   width: 3rem;
   height: 3rem;
 }
-.song-cont{
+.sheet-cont{
   padding-bottom: .4rem;
   padding-left: .4rem;
 }
-.song-name{
+.sheet-name{
   display: inline-block;
   font-size: .65rem;
 }
-.song-artists{
+.sheet-artists{
   padding-left: .4rem;
   display: inline-block;
   color: #999;
   font-size: .55rem;
 }
-.song-reason{
+.sheet-reason{
   padding-left: .4rem;
   color: #999;
   font-size: .55rem;

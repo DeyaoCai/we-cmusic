@@ -4,6 +4,7 @@
     "header": "../../components/header/header",
     "popup": "../../components/popup/popup",
     "songList": "../../components/songList/songList",
+    "sheetList": "../../components/sheetList/sheetList",
     "scroll": "../../components/scroll/scroll"
   }
 }

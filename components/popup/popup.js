@@ -10,8 +10,8 @@ Component({
   },
   attached(){},
   data: {
-    active: false, 
-    sShow: false, 
+    active: false,
+    sShow: false,
     show: false,
     full: "full",
     derction: 'bottom',
@@ -26,14 +26,14 @@ Component({
     },
     showPop() {
       const { data } = this;
-      this.setData({ 
+      this.setData({
         sShow: true,
-        popClass: this.getClass(data.active, true) 
+        popClass: this.getClass(data.active, true)
       });
       setTimeout(() => this.setData({
         active: true,
-        popClass: this.getClass(true, true) 
-      }), 20) 
+        popClass: this.getClass(true, true)
+      }), 20)
     },
     sHidePop() {
       const { data } = this;
@@ -50,7 +50,6 @@ Component({
       });
     },
     transitionEnd() {
-      console.log(146)
       const { data } = this;
       this.setData({
         sShow: data.active,

@@ -18,9 +18,7 @@ Page({
     popConf: {},
     setSrc(ev){
         const conf = ev.currentTarget.dataset.conf;
-        console.log(conf)
         cmusic.songUrl({ id: conf.id })(res => {
-            console.log(res)
             audio.src = res.data.data[0].url
         });
     },
@@ -38,7 +36,6 @@ Page({
   recommendSongs() {
     const { data } = this;
     cmusic.recommendSongs()(res => {
-      console.log(res)
       this.setData({
         newSongList: res.data.result.map(item => ({
           name: this.getName(item),
