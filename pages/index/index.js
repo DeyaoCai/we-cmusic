@@ -18,7 +18,15 @@ Page({
     page2Scrollconf: { derction: 'y', },
     popConf: {
       // $el: null,
-    }
+    },
+    setSrc(ev){
+        const conf = ev.currentTarget.dataset.conf;
+        console.log(conf)
+        cmusic.songUrl({ id: conf.id })(res => {
+            console.log(res)
+            audio.src = res.data.data[0].url
+        });
+    },
   },
   loginCmusic(){
     cmusic.loginCellphone({phone: "16621079485", password: "a13789"})(res=>{
@@ -64,14 +72,6 @@ Page({
     // $music.topPlaylistHighquality()(res => {
     //   // this.topSheetList.list = res.playlists;
     // })
-  },
-  setSrc(ev){
-    const conf = ev.currentTarget.dataset.conf;
-    console.log(conf)
-    cmusic.songUrl({ id: conf.id })(res => {
-      console.log(res)
-      audio.src = res.data.data[0].url
-    });
   },
   setIndex0(index){
     const _t = this.selectComponent(".tab-scroll");

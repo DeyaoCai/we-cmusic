@@ -1,17 +1,21 @@
+const cmusic = require("../../http/http.js");
 Component({
   options: {
     multipleSlots: true
   },
   properties: {
-    innerText: {
-      type: String,
-      value: 'default value',
-    }
+      setSrc:{
+        type: Function,
+        value: null,
+      },
   },
   data: {
       songList: null,
   },
   methods: {
+      setSrc(ev){
+        this.data.setSrc(ev);
+      },
     setList (songList) {
       this.setData({
         songList: this.getSongDto(songList),

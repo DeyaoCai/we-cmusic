@@ -3,7 +3,12 @@ Component({
   options: {
       multipleSlots: true
   },
-  properties: {},
+  properties: {
+      setSrc:{
+          type: Function,
+          value: null,
+      },
+  },
   data: {
     scrollConf: {
       derction: 'x',
@@ -31,6 +36,7 @@ Component({
     },
   },
   attached: function (options) {
+    console.log(this)
     this.personalizedNewsong();
   },
   onReady: function () {

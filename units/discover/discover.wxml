@@ -8,7 +8,7 @@
         <view bindtap="loginCmusic">登录</view>
       </view>
 
-      <songList class="comp-songList"></songList>
+      <songList class="comp-songList" setSrc="{{setSrc}}"></songList>
       <view class="song-list" wx:for="{{newSongList}}" wx:key="{{index}}" bindtap='setSrc' data-conf="{{item}}">
         <!-- <image src="{{item.src}}"></image> -->
         <view>
