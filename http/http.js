@@ -19,22 +19,8 @@ function makeAjax(url) {
 
         wx.request({
           url: encodeURI(fullUrl),
-          success (res) {
-
-            wx.showModal({
-              content: "测试点1" + JSON.stringify(res),
-              showCancel: false
-            });
-            cb.fn && cb.fn(res);
-          },
-          fail(res) {
-
-            wx.showModal({
-              content: "测试点1" + JSON.stringify(res),
-              showCancel: false
-            });
-            console.log("fail")
-          },
+          success (res) {cb.fn && cb.fn(res);},
+          fail(res) {console.log("fail")},
         });
       },
     })

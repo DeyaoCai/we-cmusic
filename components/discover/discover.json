@@ -1,4 +1,5 @@
 {
+  "component": true,
   "usingComponents": {
     "wrap": "../../wraps/wrap/wrap",
     "header": "../../components/header/header",

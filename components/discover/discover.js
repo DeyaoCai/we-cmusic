@@ -22,6 +22,16 @@ Component({
 
   },
   methods: {
+    loginCmusic() {
+      cmusic.loginCellphone({ phone: "16621079485", password: "a13789" })(res => {
+        wx.setStorage({
+          key: "wxcmusiccookie",
+          data: res.header['Set-Cookie'],
+          success() { },
+          fail() { console.log("fail") }
+        })
+      });
+    },
     showSongList(ev){
       const conf = ev.currentTarget.dataset.conf;
       cmusic.playlistDetail({id: conf.id})(res => {
