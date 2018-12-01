@@ -2,7 +2,7 @@
 <wrap>
   <header slot="header">
     <view slot='title'>title</view>
-    <view slot='left' class='btn'> + </view>
+    <view slot='left' class='btn' bindtap='testShow'> + </view>
     <view slot='right' class='btn' bindtap="loginCmusic"> 登陆 </view>
   </header>
   <view slot="content">
@@ -13,7 +13,7 @@
       </view>
     </scroll>
     <popup class="pop-conf" config="{{popConf}}" bindmyev="myev">
-      <view slot="cont">4564564564</view>
+      <discover slot="cont" setSrc="{{setSrc}}"></discover>
     </popup>
   </view>
   <view slot="footer" class="vuc-tab">

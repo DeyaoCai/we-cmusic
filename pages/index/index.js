@@ -3,7 +3,6 @@ const audio = wx.createInnerAudioContext();
 audio.autoplay = true;
 audio.loop = true;
 
-console.log(cmusic)
 Page({
   data: {
     audio,
@@ -16,9 +15,7 @@ Page({
     newSongList: [],
     page1Scrollconf: { derction: 'y', },
     page2Scrollconf: { derction: 'y', },
-    popConf: {
-      // $el: null,
-    },
+    popConf: {},
     setSrc(ev){
         const conf = ev.currentTarget.dataset.conf;
         console.log(conf)

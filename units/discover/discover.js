@@ -16,16 +16,24 @@ Component({
       index: {x: 1, y:0},
       takeOneStepAtATime: true,
     },
-    newSongList: [],
     page1Scrollconf: { derction: 'y', },
     page2Scrollconf: { derction: 'y', },
-    popConf: {}
+    popConf: {stop: true}
   },
   methods: {
+    showRecPop(){
+      const _pop = this.selectComponent(".pop-conf");
+      _pop.showPop(_pop);
+    },
+    hideRecPop(){
+      const _pop = this.selectComponent(".pop-conf");
+      _pop.hidePop(_pop);
+    },
     recommendSongs() {
       cmusic.recommendSongs()(res => {
-          const _t = this.selectComponent(".comp-songList");
-          _t.setList(res.data.recommend);
+        const _t = this.selectComponent(".comp-recommend-songList");
+        _t.setList(res.data.recommend);
+        this.showRecPop();
       })
     },
     personalizedNewsong(){
@@ -36,7 +44,6 @@ Component({
     },
   },
   attached: function (options) {
-    console.log(this)
     this.personalizedNewsong();
   },
   onReady: function () {

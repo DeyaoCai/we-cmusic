@@ -1,0 +1,35 @@
+scroll-view{
+  height: 100%;
+}
+.vuc-tab{
+  display: flex
+}
+.vuc-tab>view{
+  flex: 1;
+  text-align: center;
+  line-height: 2.5rem;
+  font-size: .7rem;
+}
+.vuc-tab>view.active{
+  color: #418dcb;
+}
+.discover-page{
+  font-size: 1rem;
+}
+.my-page{
+  font-size: 1rem;
+}
+.func-list{
+  display: flex;
+  padding: .2rem;
+}
+.func-list>view{
+  margin: .2rem;
+  flex: 1;
+  text-align: center;
+  font-size: .7rem;
+  padding: .6rem;
+  background-color:  #418dcb;
+  color: #fff;
+  border-radius: .2rem;
+}

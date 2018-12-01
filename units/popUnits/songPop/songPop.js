@@ -1,4 +1,4 @@
-const cmusic = require("../../http/http.js");
+const cmusic = require("../../../http/http.js");
 Component({
   options: {
       multipleSlots: true
@@ -36,6 +36,7 @@ Component({
     },
   },
   attached: function (options) {
+    console.log(this)
     this.personalizedNewsong();
   },
   onReady: function () {
