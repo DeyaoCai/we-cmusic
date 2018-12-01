@@ -12,7 +12,8 @@ page{
   white-space: nowrap
 }
 .scroll-cont>scroll-view,
-.scroll-cont>discover{
+.scroll-cont>discover,
+.scroll-cont>my{
   height: 100%;
   width: 100%;
   display: inline-block;

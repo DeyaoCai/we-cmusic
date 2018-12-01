@@ -9,11 +9,7 @@
     <scroll config="{{scrollConf}}" class="tab-scroll" bindupdataIndex="updataIndex">
       <view class="scroll-cont" slot="cont">
         <discover setSrc="{{setSrc}}"></discover>
-        <scroll-view>
-          <view slot="cont" bindtap='testShow' class="my-page">
-            content
-          </view>
-        </scroll-view>
+        <my></my>
       </view>
     </scroll>
     <popup class="pop-conf" config="{{popConf}}" bindmyev="myev">
