@@ -7,7 +7,7 @@ console.log(cmusic)
 Page({
   data: {
     audio,
-    scrollConf: { 
+    scrollConf: {
       derction: 'x',
       itemNum: {x:2, y:1},
       index: {x: 1, y:0},
@@ -22,7 +22,12 @@ Page({
   },
   loginCmusic(){
     cmusic.loginCellphone({phone: "16621079485", password: "a13789"})(res=>{
-      console.log(res)
+      wx.setStorage({
+        key: "wxcmusiccookie",
+        data: res.header['Set-Cookie'],
+        success(){},
+        fail(){console.log("fail")}
+      })
     });
   },
   recommendSongs() {
@@ -92,7 +97,7 @@ Page({
   testShow() {
     const _t = this.selectComponent(".pop-conf");
     _t.showPop(_t);
-    
+
   },
   getName(item) {
     if (!item) return "";
@@ -129,11 +134,7 @@ Page({
       (item.artists && item.artists.map(key => key.name).join(" | "))
     );
   },
-
-  
-  onLoad: function (options) {
-    this.personalizedNewsong();
-  },
+  onLoad: function (options) {},
   onReady: function () {
 
   },

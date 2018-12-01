@@ -4,18 +4,26 @@ function makeAjax(url) {
     const cb = {fn: null, then: fn=>cb.fn = fn}
     // const fullUrl = "http://vuc.cn:3000" + url + (data ? ("?" + Object.keys(data).map(item=>item + "=" + data[item]).join("&")) : "");
     const fullUrl = "http://47.104.252.208:3000" + url + (data ? ("?" + Object.keys(data).map(item=>item + "=" + data[item]).join("&")) : "");
-
-
-    wx.request({
-      url: encodeURI(fullUrl),
-      success: function (res) {
-        console.log(res)
-        cb.fn && cb.fn(res)
+    wx.getStorage({
+      key: "wxcmusiccookie",
+      success(res) {
+        wx.request({
+          header: { Cookie: res.data,},
+          url: encodeURI(fullUrl),
+          success (res) {cb.fn && cb.fn(res)},
+          fail() {console.log("fail")},
+        })
       },
-      fail: function () {
-        console.log("fail")
+      fail(){
+        wx.request({
+          url: encodeURI(fullUrl),
+          success (res) {cb.fn && cb.fn(res)},
+          fail () {console.log("fail")},
+        })
       },
     })
+
+    
     // fetch(encodeURI(fullUrl),{
     //   xhrFields: {withCredentials: true},
     //   credentials: 'include'

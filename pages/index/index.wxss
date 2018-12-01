@@ -11,7 +11,8 @@ page{
   font-size: 0;
   white-space: nowrap
 }
-.scroll-cont>scroll-view{
+.scroll-cont>scroll-view,
+.scroll-cont>discover{
   height: 100%;
   width: 100%;
   display: inline-block;
@@ -36,50 +37,4 @@ page{
 }
 .my-page{
   font-size: 1rem;
-}
-.func-list{
-  display: flex;
-  padding: .2rem;
-}
-.func-list>view{
-  margin: .2rem;
-  flex: 1;
-  text-align: center;
-  font-size: .7rem;
-  padding: .6rem;
-  background-color:  #418dcb;
-  color: #fff;
-  border-radius: .2rem;
-}
-.song-list{
-  display: flex;
-  padding: .65rem;
-  border-top: 1px dashed #eee;
-}
-.song-list>view{
-  text-align: left;
-  flex: 1;
-}
-.song-list>image{
-  width: 3rem;
-  height: 3rem;
-}
-.song-cont{
-  padding-bottom: .4rem;
-  padding-left: .4rem;
-}
-.song-name{
-  display: inline-block;
-  font-size: .65rem;
-}
-.song-artists{
-  padding-left: .4rem;
-  display: inline-block;
-  color: #999;
-  font-size: .55rem;
-}
-.song-reason{
-  padding-left: .4rem;
-  color: #999;
-  font-size: .55rem;
 }

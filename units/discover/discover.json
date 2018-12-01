@@ -3,7 +3,7 @@
     "wrap": "../../wraps/wrap/wrap",
     "header": "../../components/header/header",
     "popup": "../../components/popup/popup",
-    "discover": "../../units/discover/discover",
+    "songList": "../../components/songList/songList",
     "scroll": "../../components/scroll/scroll"
   }
 }
