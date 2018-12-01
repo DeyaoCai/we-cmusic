@@ -3,8 +3,8 @@
     "wrap": "../../wraps/wrap/wrap",
     "header": "../../components/header/header",
     "popup": "../../components/popup/popup",
-    "discover": "../../units/discover/discover",
-    "my": "../../units/my/my",
+    "discover": "../../components/discover/discover",
+    "my": "../../components/my/my",
     "scroll": "../../components/scroll/scroll"
   }
 }

@@ -65,8 +65,8 @@ Component({
     },
     personalizedNewsong(){
       cmusic.personalizedNewsong()(res => {
-          const _t = this.selectComponent(".comp-songList");
-          _t.setList(res.data.result);
+        const _t = this.selectComponent(".comp-songList");
+        _t.setList(res.data.result);
       })
     },
   },

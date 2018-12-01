@@ -4,6 +4,7 @@ function makeAjax(url) {
     const cb = {fn: null, then: fn=>cb.fn = fn}
     // const fullUrl = "http://vuc.cn:3000" + url + (data ? ("?" + Object.keys(data).map(item=>item + "=" + data[item]).join("&")) : "");
     const fullUrl = "http://47.104.252.208:3000" + url + (data ? ("?" + Object.keys(data).map(item=>item + "=" + data[item]).join("&")) : "");
+
     wx.getStorage({
       key: "wxcmusiccookie",
       success(res) {
@@ -14,12 +15,27 @@ function makeAjax(url) {
           fail() {console.log("fail")},
         })
       },
-      fail(){
+      fail(res){
+
         wx.request({
           url: encodeURI(fullUrl),
-          success (res) {cb.fn && cb.fn(res)},
-          fail () {console.log("fail")},
-        })
+          success (res) {
+
+            wx.showModal({
+              content: "测试点1" + JSON.stringify(res),
+              showCancel: false
+            });
+            cb.fn && cb.fn(res);
+          },
+          fail(res) {
+
+            wx.showModal({
+              content: "测试点1" + JSON.stringify(res),
+              showCancel: false
+            });
+            console.log("fail")
+          },
+        });
       },
     })
 
