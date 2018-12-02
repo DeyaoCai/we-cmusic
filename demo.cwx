@@ -1,0 +1,13 @@
+<script role="json">
+/* export default 里面放json的内容 */
+export default {}
+</script>
+<template>
+<!-- 这里放 wxml 的内容 -->
+</template>
+<script>
+/* 这里放js 内容 */
+</script>
+<style>
+/* 这里放 wxss 里面的内容*/
+</style>

@@ -1,0 +1,83 @@
+<script role="json">
+  export default {
+    "component": true
+  }
+</script>
+<template>
+  <view class="sheet-list" wx:for="{{sheetList}}" wx:key="{{index}}" bindtap='showSongList' data-conf="{{item}}">
+    <!-- <image src="{{item.picUrl || item.coverImgUrl}}"></image> -->
+    <view>
+      <view class="sheet-cont">
+        <view class="sheet-name">{{item.name}}</view>
+        <view class="sheet-artists">{{item.creator.nickname}}</view>
+      </view>
+      <view class="sheet-reason">{{item.copywriter || item.description}}</view>
+    </view>
+  </view>
+
+</template>
+<script>
+  const cmusic = require("../../../http/http.js");
+  Component({
+    options: {
+      multipleSlots: true
+    },
+    properties: {
+      showSongList:{
+        type: Function,
+        value: null,
+      },
+    },
+    data: {
+      sheetList: null,
+    },
+    methods: {
+      showSongList(ev){
+        this.data.showSongList(ev);
+      },
+      setList (sheetList) {
+        console.log(sheetList)
+        this.setData({
+          sheetList: sheetList,
+        })
+      },
+    }
+  })
+
+</script>
+<style>
+  .sheet-list{
+    display: flex;
+    background-color: #fff;
+    padding: .65rem;
+    border-top: 1px dashed #eee;
+  }
+  .sheet-list>view{
+    text-align: left;
+    flex: 1;
+  }
+  .sheet-list>image{
+    width: 3rem;
+    height: 3rem;
+  }
+  .sheet-cont{
+    padding-bottom: .4rem;
+    padding-left: .4rem;
+  }
+  .sheet-name{
+    display: inline-block;
+    font-size: .65rem;
+  }
+  .sheet-artists{
+    padding-left: .4rem;
+    display: inline-block;
+    color: #999;
+    font-size: .55rem;
+  }
+  .sheet-reason{
+    padding-left: .4rem;
+    color: #999;
+    font-size: .55rem;
+  }
+
+</style>

@@ -1,0 +1,59 @@
+<script role="json">
+  export default{
+    "component": true
+  }
+</script>
+<template>
+  <view class="vuc-header">
+    <view class='header-title'><slot name="title"/></view>
+    <view class='header-left'><slot name="left"/></view>
+    <view class='header-right'><slot name="right"/></view>
+  </view>
+</template>
+<script>
+  Component({
+    options: {
+      multipleSlots: true
+    },
+    properties: {
+      innerText: {
+        type: String,
+        value: 'default value',
+      }
+    },
+    data: {
+      someData: {}
+    },
+    methods: {
+      customMethod: function () { }
+    }
+  })
+</script>
+<style>
+  .vuc-header{
+    position: relative;
+    font-size: .7rem;
+  }
+  .header-title{
+    line-height: 2.5rem;
+    text-align: center;
+  }
+  .header-left{
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  .header-right{
+    position: absolute;
+    right: 0;
+    top: 0;
+
+  }
+  .vuc-header>.header-left>view,
+  .vuc-header>.header-right>view{
+    text-align: center;
+    height: 2.5rem;
+    width: 2.5rem;
+    line-height: 2.5rem;
+  }
+</style>

@@ -1,0 +1,126 @@
+<script role="json">
+  export default {
+    "component": true
+  }
+</script>
+<template>
+  <view class="song-list" wx:for="{{songList}}" wx:key="{{index}}" bindtap='setSrc' data-conf="{{item}}">
+    <!-- <image src="{{item.src}}"></image> -->
+    <view>
+      <view class="song-cont">
+        <view class="song-name">{{item.name}}</view>
+        <view class="song-artists">{{item.artists}}</view>
+      </view>
+      <view class="song-reason">{{item.reason}}</view>
+    </view>
+  </view>
+
+</template>
+<script>
+  const cmusic = require("../../../http/http.js");
+  Component({
+    options: {
+      multipleSlots: true
+    },
+    properties: {
+      setSrc:{
+        type: Function,
+        value: null,
+      },
+    },
+    data: {
+      songList: null,
+    },
+    methods: {
+      setSrc(ev){
+        this.data.setSrc(ev);
+      },
+      setList (songList) {
+        this.setData({
+          songList: this.getSongDto(songList),
+        })
+      },
+      getSongDto (list) {
+        return list.map(item => ({
+          name: this.getName(item),
+          src: this.getSrc(item),
+          artists: this.getArtists(item),
+          reason: this.getReason(item),
+          id: item.id,
+        }))
+      },
+      getName(item) {
+        if (!item) return "";
+        return (
+          item.name ||
+          (item.song && item.song.name)
+        );
+      },
+      getSrc(item) {
+        if (!item) return "";
+        return (
+          (item.song && item.song.al && item.song.al.picUrl) ||
+          (item.song && item.song.album && item.song.album.picUrl) ||
+          (item.album && item.album.blurPicUrl) ||
+          (item.al && item.al.picUrl)
+        )
+      },
+      getArtists(item) {
+        if (this.getReason(item)) return (
+          (item.song && item.song.artists && item.song.artists.map(key => key.name).join(" | ")) ||
+          (item.ar && item.ar.map(item => item.name).join(" | ")) ||
+          (item.song && item.song.ar && item.song.ar.map(key => key.name).join(" | ")) ||
+          (item.artists && item.artists.map(key => key.name).join(" | "))
+        );
+        else return "";
+      },
+      getReason(item) {
+        if (!item) return "";
+        return (
+          item.reason ||
+          (item.song && item.song.artists && item.song.artists.map(key => key.name).join(" | ")) ||
+          (item.ar && item.ar.map(item => item.name).join(" | ")) ||
+          (item.song && item.song.ar && item.song.ar.map(key => key.name).join(" | ")) ||
+          (item.artists && item.artists.map(key => key.name).join(" | "))
+        );
+      },
+    }
+  })
+
+</script>
+<style>
+  .song-list{
+    display: flex;
+    background-color: #fff;
+    padding: .65rem;
+    border-top: 1px dashed #eee;
+  }
+  .song-list>view{
+    text-align: left;
+    flex: 1;
+  }
+  .song-list>image{
+    width: 3rem;
+    height: 3rem;
+  }
+  .song-cont{
+    padding-bottom: .4rem;
+    padding-left: .4rem;
+  }
+  .song-name{
+    display: inline-block;
+    font-size: .65rem;
+  }
+  .song-artists{
+    padding-left: .4rem;
+    display: inline-block;
+    color: #999;
+    font-size: .55rem;
+  }
+  .song-reason{
+    padding-left: .4rem;
+    color: #999;
+    font-size: .55rem;
+  }
+
+</style>

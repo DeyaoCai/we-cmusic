@@ -1,0 +1,14 @@
+{
+  "name": "c-wx",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "testRead": "node ./bin/ctools.js read",
+    "Read": "ctools read",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

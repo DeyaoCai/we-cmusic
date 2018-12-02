@@ -1,5 +1,0 @@
-<view class="vuc-popup" class="{{popClass}}"  bindtap="sHidePop">
-  <view class="vuc-popup-null" wx-if="{{!full && derction === 'bottom'}}"></view>
-  <view class="vuc-popup-content" class="vuc-popup-content {{full}}" bindtransitionend="transitionEnd"><slot name="cont"/></view>
-  <view class="vuc-popup-null"  wx-if="{{!full && derction === 'top'}}"></view>
-</view>

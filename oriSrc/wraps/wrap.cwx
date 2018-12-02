@@ -1,0 +1,56 @@
+<script role="json">
+  export default {
+    "component": true
+  }
+</script>
+<template>
+  <view class="vuc-wrap">
+    <view class="vuc-wrap-inner">
+      <slot name="header"></slot>
+      <view class="vuc-content"><view class="vuc-content-inner">
+        <slot name="content"></slot>
+      </view></view>
+      <slot name="footer"/>
+    </view>
+  </view>
+</template>
+<script>
+  Component({
+    options: {
+      multipleSlots: true
+    },
+    properties: {
+      innerText: {
+        type: String,
+        value: 'default value',
+      }
+    },
+    data: {
+      someData: {}
+    },
+    methods: {
+      customMethod: function () { }
+    }
+  })
+</script>
+<style>
+  /* pages/index/index.wxss */
+  .vuc-wrap{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  .vuc-wrap-inner{
+    position: relative;
+    height: 100%;
+    display: flex;
+    box-orient:vertical;
+    flex-direction:column;
+  }
+  .vuc-content{
+    flex: 1 1 0;
+    text-align: center;
+    position: relative;
+  }
+</style>

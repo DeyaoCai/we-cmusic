@@ -1,0 +1,9 @@
+
+  <view
+    class="vuc-scroll"
+    bindtouchstart="touchEv"
+    bindtouchmove="moveEv"
+    bindtouchend="endEv"
+  >
+    <view style="{{innerStyle}}" class="vuc-scroll-wrap {{config.derction}}"><slot name="cont"></slot></view>
+  </view>

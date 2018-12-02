@@ -1,0 +1,26 @@
+
+  <!--pages/index/index.wxml-->
+  <wrap>
+    <header slot="header">
+      <view slot='title'>title</view>
+      <view slot='left' class='btn' bindtap='testShow'> + </view>
+      <view slot='right' class='btn' bindtap="loginCmusic"> 登陆 </view>
+    </header>
+    <view slot="content">
+      <scroll config="{{scrollConf}}" class="tab-scroll" bindupdataIndex="updataIndex">
+        <view class="scroll-cont" slot="cont">
+          <discover setSrc="{{setSrc}}"></discover>
+          <my></my>
+        </view>
+      </scroll>
+      <popup class="pop-conf" config="{{popConf}}" bindmyev="myev">
+        <discover slot="cont" setSrc="{{setSrc}}"></discover>
+      </popup>
+    </view>
+    <view slot="footer" class="vuc-tab">
+      <view bindtap="setIndex0" class="{{scrollConf.index.x === 0 ? 'active' : ''}}">发现</view>
+      <view bindtap="setIndex1" class="{{scrollConf.index.x === 1 ? 'active' : ''}}">我的</view>
+    </view>
+  </wrap>
+
+

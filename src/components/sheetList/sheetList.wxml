@@ -1,0 +1,12 @@
+
+  <view class="sheet-list" wx:for="{{sheetList}}" wx:key="{{index}}" bindtap='showSongList' data-conf="{{item}}">
+    <!-- <image src="{{item.picUrl || item.coverImgUrl}}"></image> -->
+    <view>
+      <view class="sheet-cont">
+        <view class="sheet-name">{{item.name}}</view>
+        <view class="sheet-artists">{{item.creator.nickname}}</view>
+      </view>
+      <view class="sheet-reason">{{item.copywriter || item.description}}</view>
+    </view>
+  </view>
+

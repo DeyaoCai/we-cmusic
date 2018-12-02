@@ -1,0 +1,6 @@
+
+  <view class="vuc-header">
+    <view class='header-title'><slot name="title"/></view>
+    <view class='header-left'><slot name="left"/></view>
+    <view class='header-right'><slot name="right"/></view>
+  </view>

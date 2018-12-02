@@ -1,0 +1,47 @@
+
+  .vuc-popup{
+    display: none;
+    box-orient:vertical;
+    flex-direction:column;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    overflow: hidden;
+    transition: all 1s;
+    z-index: 1;
+  }
+  .vuc-popup.show{
+    display: flex;
+    background-color: rgba(0,0,0,.0);
+  }
+  .vuc-popup.active{
+    background-color: rgba(0,0,0,.5);
+  }
+  .vuc-popup-null{
+    flex: 1;
+  }
+  .vuc-popup-content{
+    transform: translate3d(0,0,0);
+    transition: transform .3s;
+    will-change: transform;
+  }
+  .top .vuc-popup-content{
+    transform: translate3d(0, -100%, 0);
+  }
+  .bottom .vuc-popup-content{
+    transform: translate3d(0, 100%, 0);
+  }
+  .left .vuc-popup-content{
+    transform: translate3d(-100%, 0, 0);
+  }
+  .right .vuc-popup-content{
+    transform: translate3d(100%, 0, 0);
+  }
+  .vuc-popup-content.full{
+    height: 100%;
+  }
+  .active .vuc-popup-content{
+    transform: translateY(0);
+  }

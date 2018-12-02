@@ -1,9 +1,0 @@
-<view class="vuc-wrap">
-  <view class="vuc-wrap-inner">
-    <slot name="header"></slot>
-    <view class="vuc-content"><view class="vuc-content-inner">
-      <slot name="content"></slot>
-    </view></view>
-    <slot name="footer"/>
-  </view>
-</view>

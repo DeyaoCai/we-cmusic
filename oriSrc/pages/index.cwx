@@ -1,0 +1,241 @@
+<script role="json">
+  export default {
+    "usingComponents": {
+      "wrap": "../../wraps/wrap/wrap",
+      "header": "../../components/header/header",
+      "popup": "../../components/popup/popup",
+      "discover": "../../components/discover/discover",
+      "my": "../../components/my/my",
+      "scroll": "../../components/scroll/scroll"
+    }
+  }
+
+</script>
+<template>
+  <!--pages/index/index.wxml-->
+  <wrap>
+    <header slot="header">
+      <view slot='title'>title</view>
+      <view slot='left' class='btn' bindtap='testShow'> + </view>
+      <view slot='right' class='btn' bindtap="loginCmusic"> 登陆 </view>
+    </header>
+    <view slot="content">
+      <scroll config="{{scrollConf}}" class="tab-scroll" bindupdataIndex="updataIndex">
+        <view class="scroll-cont" slot="cont">
+          <discover setSrc="{{setSrc}}"></discover>
+          <my></my>
+        </view>
+      </scroll>
+      <popup class="pop-conf" config="{{popConf}}" bindmyev="myev">
+        <discover slot="cont" setSrc="{{setSrc}}"></discover>
+      </popup>
+    </view>
+    <view slot="footer" class="vuc-tab">
+      <view bindtap="setIndex0" class="{{scrollConf.index.x === 0 ? 'active' : ''}}">发现</view>
+      <view bindtap="setIndex1" class="{{scrollConf.index.x === 1 ? 'active' : ''}}">我的</view>
+    </view>
+  </wrap>
+
+
+</template>
+<script>
+  const cmusic = require("../../../http/http.js");
+  const audio = wx.createInnerAudioContext();
+  audio.autoplay = true;
+  audio.loop = true;
+  audio.volume = .3;
+
+  Page({
+    data: {
+      audio,
+      scrollConf: {
+        derction: 'x',
+        itemNum: {x:2, y:1},
+        index: {x: 1, y:0},
+        takeOneStepAtATime: true,
+      },
+      newSongList: [],
+      page1Scrollconf: { derction: 'y', },
+      page2Scrollconf: { derction: 'y', },
+      popConf: {},
+      setSrc(ev){
+        const conf = ev.currentTarget.dataset.conf;
+        cmusic.songUrl({ id: conf.id })(res => {
+          audio.src = res.data.data[0].url
+        });
+      },
+    },
+    loginCmusic(){
+      cmusic.loginCellphone({phone: "16621079485", password: "a13789"})(res=>{
+        wx.setStorage({
+          key: "wxcmusiccookie",
+          data: res.header['Set-Cookie'],
+          success(){},
+          fail(){console.log("fail")}
+        })
+      });
+    },
+    recommendSongs() {
+      const { data } = this;
+      cmusic.recommendSongs()(res => {
+        this.setData({
+          newSongList: res.data.result.map(item => ({
+            name: this.getName(item),
+            src: this.getSrc(item),
+            artists: this.getArtists(item),
+            reason: this.getReason(item),
+            id: item.id,
+          }))
+        })
+      })
+    },
+    personalizedNewsong(){
+      const {data} = this;
+      // $music.recommendResource()(res => {
+      //   // this.sheetList.list = res.recommend;
+      // });
+      cmusic.personalizedNewsong()(res => {
+        this.setData({
+          newSongList: res.data.result.map(item=>({
+            name: this.getName(item) ,
+            src: this.getSrc(item) ,
+            artists: this.getArtists(item),
+            reason: this.getReason(item),
+            id: item.id,
+          }))
+        })
+      })
+      // $music.topPlaylistHighquality()(res => {
+      //   // this.topSheetList.list = res.playlists;
+      // })
+    },
+    setIndex0(index){
+      const _t = this.selectComponent(".tab-scroll");
+      _t.setIndex({ x: 0 });
+      this.setIndex({ x: 0, y:0 });
+    },
+    setIndex1(index) {
+      const _t = this.selectComponent(".tab-scroll");
+      _t.setIndex({ x: 1 });
+      this.setIndex({ x: 1, y: 0 });
+    },
+    updataIndex(ev){
+      const _t = this.selectComponent(".tab-scroll");
+      // console.log(ev.detail)
+      this.setIndex(ev.detail);
+    },
+    setIndex(index){
+      const scrollConf = this.data.scrollConf;
+      scrollConf.index.x = index.x;
+      scrollConf.index.y = index.y;
+      this.setData({scrollConf});
+    },
+    testShow() {
+      const _t = this.selectComponent(".pop-conf");
+      _t.showPop(_t);
+
+    },
+    getName(item) {
+      if (!item) return "";
+      return (
+        item.name ||
+        (item.song && item.song.name)
+      );
+    },
+    getSrc(item) {
+      if (!item) return "";
+      return (
+        (item.song && item.song.al && item.song.al.picUrl) ||
+        (item.song && item.song.album && item.song.album.picUrl) ||
+        (item.album && item.album.blurPicUrl) ||
+        (item.al && item.al.picUrl)
+      )
+    },
+    getArtists(item) {
+      if (this.getReason(item)) return (
+        (item.song && item.song.artists && item.song.artists.map(key => key.name).join(" | ")) ||
+        (item.ar && item.ar.map(item => item.name).join(" | ")) ||
+        (item.song && item.song.ar && item.song.ar.map(key => key.name).join(" | ")) ||
+        (item.artists && item.artists.map(key => key.name).join(" | "))
+      );
+      else return "";
+    },
+    getReason(item) {
+      if (!item) return "";
+      return (
+        item.reason ||
+        (item.song && item.song.artists && item.song.artists.map(key => key.name).join(" | ")) ||
+        (item.ar && item.ar.map(item => item.name).join(" | ")) ||
+        (item.song && item.song.ar && item.song.ar.map(key => key.name).join(" | ")) ||
+        (item.artists && item.artists.map(key => key.name).join(" | "))
+      );
+    },
+    onLoad: function (options) {},
+    onReady: function () {
+
+    },
+    onShow: function () {
+
+    },
+    onHide: function () {
+
+    },
+    onUnload: function () {
+
+    },
+    onPullDownRefresh: function () {
+
+    },
+    onReachBottom: function () {
+
+    },
+    onShareAppMessage: function () {
+
+    }
+  })
+
+</script>
+<style>
+  /* pages/index/index.wxss */
+  page{
+    height: 100%;
+    font-size: 40px;
+    position: fixed;
+    width: 100%;
+  }
+  .scroll-cont{
+    width: 100%;
+    height: 100%;
+    font-size: 0;
+    white-space: nowrap
+  }
+  .scroll-cont>scroll-view,
+  .scroll-cont>discover,
+  .scroll-cont>my{
+    height: 100%;
+    width: 100%;
+    display: inline-block;
+    position: relative;
+    vertical-align: top;
+  }
+
+  .vuc-tab{
+    display: flex
+  }
+  .vuc-tab>view{
+    flex: 1;
+    text-align: center;
+    line-height: 2.5rem;
+    font-size: .7rem;
+  }
+  .vuc-tab>view.active{
+    color: #418dcb;
+  }
+  .discover-page{
+    font-size: 1rem;
+  }
+  .my-page{
+    font-size: 1rem;
+  }
+
+</style>

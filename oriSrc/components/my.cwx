@@ -1,0 +1,144 @@
+<script role="json">
+  export default {
+    "component": true,
+    "usingComponents": {
+      "wrap": "../../wraps/wrap/wrap",
+      "header": "../../components/header/header",
+      "popup": "../../components/popup/popup",
+      "songList": "../../components/songList/songList",
+      "scroll": "../../components/scroll/scroll"
+    }
+  }
+
+</script>
+<template>
+  <scroll-view scroll-y>
+    <view slot="cont" class="discover-page">
+
+      <view class="func-list">
+        <view bindtap="recommendSongs">每日推荐</view>
+        <view>歌单</view>
+        <view>排行榜</view>
+        <view bindtap="loginCmusic">登录</view>
+      </view>
+
+      <songList class="comp-songList" setSrc="{{setSrc}}"></songList>
+      <view class="song-list" wx:for="{{newSongList}}" wx:key="{{index}}" bindtap='setSrc' data-conf="{{item}}">
+        <!-- <image src="{{item.src}}"></image> -->
+        <view>
+          <view class="song-cont">
+            <view class="song-name">{{item.name}}</view>
+            <view class="song-artists">{{item.artists}}</view>
+          </view>
+          <view class="song-reason">{{item.reason}}</view>
+        </view>
+      </view>
+
+    </view>
+  </scroll-view>
+
+
+</template>
+<script>
+  const cmusic = require("../../../http/http.js");
+  Component({
+    options: {
+      multipleSlots: true
+    },
+    properties: {
+      setSrc:{
+        type: Function,
+        value: null,
+      },
+    },
+    data: {
+      scrollConf: {
+        derction: 'x',
+        itemNum: {x:2, y:1},
+        index: {x: 1, y:0},
+        takeOneStepAtATime: true,
+      },
+      newSongList: [],
+      page1Scrollconf: { derction: 'y', },
+      page2Scrollconf: { derction: 'y', },
+      popConf: {}
+    },
+    methods: {
+      recommendSongs() {
+        cmusic.recommendSongs()(res => {
+          const _t = this.selectComponent(".comp-songList");
+          _t.setList(res.data.recommend);
+        })
+      },
+      personalizedNewsong(){
+        cmusic.personalizedNewsong()(res => {
+          const _t = this.selectComponent(".comp-songList");
+          _t.setList(res.data.result);
+        })
+      },
+    },
+    attached: function (options) {
+      this.personalizedNewsong();
+    },
+    onReady: function () {
+
+    },
+    onShow: function () {
+
+    },
+    onHide: function () {
+
+    },
+    onUnload: function () {
+
+    },
+    onPullDownRefresh: function () {
+
+    },
+    onReachBottom: function () {
+
+    },
+    onShareAppMessage: function () {
+
+    }
+  })
+
+</script>
+<style>
+  scroll-view{
+    height: 100%;
+  }
+  .vuc-tab{
+    display: flex
+  }
+  .vuc-tab>view{
+    flex: 1;
+    text-align: center;
+    line-height: 2.5rem;
+    font-size: .7rem;
+  }
+  .vuc-tab>view.active{
+    color: #418dcb;
+  }
+  .discover-page{
+    font-size: 1rem;
+  }
+  .my-page{
+    font-size: 1rem;
+  }
+  .func-list{
+    display: flex;
+    padding: .2rem;
+  }
+  .func-list>view{
+    margin: .2rem;
+    flex: 1;
+    text-align: center;
+    font-size: .7rem;
+    padding: .6rem;
+    background-color:  #418dcb;
+    color: #fff;
+    border-radius: .2rem;
+  }
+
+</style>
