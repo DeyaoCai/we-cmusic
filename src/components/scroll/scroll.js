@@ -1,5 +1,5 @@
 
-  let Drag = require("../../../tools/drag.js");
+    const Drag = require("../../../tools/drag.js");
   Component({
     options: {
       multipleSlots: true

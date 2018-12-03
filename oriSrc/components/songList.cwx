@@ -1,20 +1,30 @@
 <script role="json">
   export default {
-    "component": true
+      component: true,
+      usingComponents: {
+          scrollSlide: "../scrollSlide/scrollSlide"
+    }
   }
 </script>
 <template>
-  <view class="song-list" wx:for="{{songList}}" wx:key="{{index}}" bindtap='setSrc' data-conf="{{item}}">
-    <!-- <image src="{{item.src}}"></image> -->
-    <view>
-      <view class="song-cont">
-        <view class="song-name">{{item.name}}</view>
-        <view class="song-artists">{{item.artists}}</view>
+  <scrollSlide wx:for="{{songList}}" wx:key="{{index}}" config="{{item}}">
+    <view class="song-list" bindtap='setSrc' data-conf="{{item}}" slot="cont">
+      <!-- <image src="{{item.src}}"></image> -->
+      <view>
+        <view class="song-cont">
+          <view class="song-name">{{item.name}}</view>
+          <view class="song-artists">{{item.artists}}</view>
+        </view>
+        <view class="song-reason">{{item.reason}}</view>
       </view>
-      <view class="song-reason">{{item.reason}}</view>
     </view>
-  </view>
 
+
+    <view slot="btns">
+      <view>播放全部</view>
+      <view>喜欢</view>
+    </view>
+  </scrollSlide>
 </template>
 <script>
   const cmusic = require("../../../http/http.js");

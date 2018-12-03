@@ -1,0 +1,136 @@
+<script role="json">
+    export default {
+        "component": true
+    }
+</script>
+<template>
+  <view class="vuc-scroll-slide">
+    <view class="vuc-scroll-slide-btns">
+      <view></view>
+      <view class="vuc-scroll-slide-btns-wrap"><slot name="btns"></slot></view>
+    </view>
+    <view class="vuc-scroll-slide-wrap" style="{{innerStyle}}">
+      <slot name="cont"></slot>
+    </view>
+  </view>
+</template>
+<script>
+const Drag = require("../../../tools/drag.js");
+Component({
+  options: {
+      multipleSlots: true
+  },
+  properties: {
+      config: {
+          type: Object,
+          value: {},
+      }
+  },
+  attached(){
+      const {data} = this;
+      data.confg || (data.confg = {});
+  },
+  ready(){
+    const {data} = this;
+    if (!data.$el || !data.$ele) {
+      const query = wx.createSelectorQuery().in(this);
+      data.$el || query.select('.vuc-scroll-slide').boundingClientRect(function ($el) {
+        data.$el = $el;
+      }).exec();
+      data.$ele || query.select('.vuc-scroll-slide-btns-wrap').boundingClientRect(function ($ele) {
+        data.$ele = $ele;
+      }).exec();
+    }
+    this.cacheWrapSize();
+  },
+  data: {
+    innerStyle: "",
+    isActive: "",
+    cachedWrapsize: null,
+  },
+  methods: {
+    cacheWrapSize() {
+      const { data } = this;
+      const $el = data.$el;
+      const $ele = data.$ele;
+      if (!$ele || !$el) {
+          return { wrap: { x: 0, y: 0 }, inner: { x: 0, y: 0 } }
+      }
+      const wrap = { x: $el.width, y: $el.height }
+      let ix = $ele.width;
+      let iy = $ele.height;
+      const inner = { x: ix, y: iy };
+      data.cachedWrapsize = { wrap, inner };
+      return data.cachedWrapsize;
+    },
+    getWrapSize() { return this.data.cachedWrapsize || this.cacheWrapSize(); },
+    innerStyle() {
+      const {data} = this;
+      const touching = data.drag.isTouching;
+      const pos = data.nowPosi;
+      const posi = data.posi;
+      const config = data.config;
+
+      const offset = Drag.prototype.getOffset.call(data.drag);
+      const offsetX = pos.x - posi.x - offset.x;
+
+      let ti = Math.sqrt(Math.sqrt(Math.sqrt(Math.sqrt(Math.abs(offsetX * data.rate)))));
+      ti < .3 && (ti = .3);
+      if (!touching) {
+        data.posi = { x: pos.x, y: pos.y };
+        this.setData({ config: config });
+      }
+      return `
+        transform: translate3d(${pos.x}px, ${pos.y}px,0);
+        transition: transform ${touching ? 0 : ti}s ease-out;
+      `;
+    },
+  }
+});
+</script>
+<style>
+/*滚动开始*/
+.vuc-scroll-slide{
+  position: relative;
+  overflow: hidden;
+}
+.vuc-scroll-slide-wrap:before{
+  content: "4564";
+  font-size: 1rem;
+  z-index: 10;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: red;
+}
+
+.vuc-scroll-slide-wrap{
+  position: relative;
+  will-change: transform;
+  font-size: 0;
+  background-color: #fff;
+  padding-right: 1rem;
+}
+.vuc-scroll-slide-btns{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  display: flex;
+}
+.vuc-scroll-slide-btns>view:first-child{
+  flex: 1 1 0;
+}
+.vuc-scroll-slide-btns>view:last-child{
+  font-size: 0;
+}
+.vuc-scroll-slide-btns>view:last-child>view{
+  font-size: .6rem;
+  display: inline-block;
+}
+</style>

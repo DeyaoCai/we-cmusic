@@ -1,0 +1,10 @@
+
+  <view class="vuc-scroll-slide">
+    <view class="vuc-scroll-slide-btns">
+      <view></view>
+      <view class="vuc-scroll-slide-btns-wrap"><slot name="btns"></slot></view>
+    </view>
+    <view class="vuc-scroll-slide-wrap" style="{{innerStyle}}">
+      <slot name="cont"></slot>
+    </view>
+  </view>
