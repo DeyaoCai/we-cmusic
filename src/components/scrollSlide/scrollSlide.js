@@ -33,6 +33,20 @@ Component({
     cachedWrapsize: null,
   },
   methods: {
+    deActive(){
+        const active =!this.data.isActive;
+        this.setData({
+            isActive: false,
+            innerStyle: this.innerStyle(false)
+        });
+    },
+    toggleActive(){
+        const active =!this.data.isActive;
+        this.setData({
+            isActive: active,
+            innerStyle: this.innerStyle(active)
+        });
+    },
     cacheWrapSize() {
       const { data } = this;
       const $el = data.$el;
@@ -48,25 +62,10 @@ Component({
       return data.cachedWrapsize;
     },
     getWrapSize() { return this.data.cachedWrapsize || this.cacheWrapSize(); },
-    innerStyle() {
-      const {data} = this;
-      const touching = data.drag.isTouching;
-      const pos = data.nowPosi;
-      const posi = data.posi;
-      const config = data.config;
-
-      const offset = Drag.prototype.getOffset.call(data.drag);
-      const offsetX = pos.x - posi.x - offset.x;
-
-      let ti = Math.sqrt(Math.sqrt(Math.sqrt(Math.sqrt(Math.abs(offsetX * data.rate)))));
-      ti < .3 && (ti = .3);
-      if (!touching) {
-        data.posi = { x: pos.x, y: pos.y };
-        this.setData({ config: config });
-      }
+    innerStyle(isActive) {
+      const size = this.getWrapSize().inner;
       return `
-        transform: translate3d(${pos.x}px, ${pos.y}px,0);
-        transition: transform ${touching ? 0 : ti}s ease-out;
+        transform: translate3d(${isActive ? -size.x : 0}px, 0px,0);
       `;
     },
   }

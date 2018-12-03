@@ -10,8 +10,6 @@
         <view class="song-reason">{{item.reason}}</view>
       </view>
     </view>
-
-
     <view slot="btns">
       <view>播放全部</view>
       <view>喜欢</view>
