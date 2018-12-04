@@ -12,20 +12,28 @@
     </view>
   </scroll-view>
   <popup class="pop-conf-sheet" config="{{popConf}}">
-    <scroll-view slot="cont" scroll-y>
+    <view slot="cont" class="song-list-wrap">
       <view class="func-list">
         <view>全部播放</view>
         <view bindtap="hideSheetPop">关闭</view>
       </view>
-      <sheetList class="comp-sheetList" showSongList="{{showSongList}}"></sheetList>
-    </scroll-view>
+      <view class="song-list-inner">
+      <scroll-view scroll-y>
+        <sheetList class="comp-sheetList" showSongList="{{showSongList}}"></sheetList>
+      </scroll-view>
+      </view>
+    </view>
   </popup>
   <popup class="pop-conf" config="{{popConf}}">
-    <scroll-view slot="cont" scroll-y>
+    <view slot="cont" class="song-list-wrap">
       <view class="func-list">
         <view>全部播放</view>
         <view bindtap="hideRecPop">关闭</view>
       </view>
-      <songList class="comp-recommend-songList" setSrc="{{setSrc}}"></songList>
-    </scroll-view>
+      <view class="song-list-inner">
+        <scroll-view scroll-y>
+          <songList class="comp-recommend-songList" setSrc="{{setSrc}}"></songList>
+        </scroll-view>
+      </view>
+    </view>
   </popup>

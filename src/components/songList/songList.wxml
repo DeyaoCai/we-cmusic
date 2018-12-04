@@ -4,13 +4,13 @@
       <!-- <image src="{{item.src}}"></image> -->
       <view>
         <view class="song-cont">
-          <view class="song-name">{{item.name}}</view>
+          <view class="song-name">{{item.name}}</view>z
           <view class="song-artists">{{item.artists}}</view>
         </view>
         <view class="song-reason">{{item.reason}}</view>
       </view>
     </view>
-    <view slot="btns">
+    <view slot="btns" class="song-btns">
       <view>播放全部</view>
       <view>喜欢</view>
     </view>

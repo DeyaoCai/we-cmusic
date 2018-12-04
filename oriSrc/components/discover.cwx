@@ -25,22 +25,30 @@
     </view>
   </scroll-view>
   <popup class="pop-conf-sheet" config="{{popConf}}">
-    <scroll-view slot="cont" scroll-y>
+    <view slot="cont" class="song-list-wrap">
       <view class="func-list">
         <view>全部播放</view>
         <view bindtap="hideSheetPop">关闭</view>
       </view>
-      <sheetList class="comp-sheetList" showSongList="{{showSongList}}"></sheetList>
-    </scroll-view>
+      <view class="song-list-inner">
+      <scroll-view scroll-y>
+        <sheetList class="comp-sheetList" showSongList="{{showSongList}}"></sheetList>
+      </scroll-view>
+      </view>
+    </view>
   </popup>
   <popup class="pop-conf" config="{{popConf}}">
-    <scroll-view slot="cont" scroll-y>
+    <view slot="cont" class="song-list-wrap">
       <view class="func-list">
         <view>全部播放</view>
         <view bindtap="hideRecPop">关闭</view>
       </view>
-      <songList class="comp-recommend-songList" setSrc="{{setSrc}}"></songList>
-    </scroll-view>
+      <view class="song-list-inner">
+        <scroll-view scroll-y>
+          <songList class="comp-recommend-songList" setSrc="{{setSrc}}"></songList>
+        </scroll-view>
+      </view>
+    </view>
   </popup>
 </template>
 <script>
@@ -155,20 +163,24 @@
   })
 </script>
 <style>
-  scroll-view{
+  .song-list-wrap{
     height: 100%;
+    display: flex;
+    box-orient:vertical;
+    flex-direction:column;
+    background-color: #fff;
+    border-top: 1px solid #f8f8f8;
   }
-  .vuc-tab{
-    display: flex
+  .song-list-inner{
+    flex: 1 1 0;
+    position: relative;
   }
-  .vuc-tab>view{
-    flex: 1;
-    text-align: center;
-    line-height: 2.5rem;
-    font-size: .7rem;
-  }
-  .vuc-tab>view.active{
-    color: #418dcb;
+  scroll-view{
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
   }
   .discover-page{
     font-size: 1rem;
@@ -179,6 +191,7 @@
   .func-list{
     display: flex;
     padding: .2rem;
+    flex: 0 0 auto;
   }
   .func-list>view{
     margin: .2rem;

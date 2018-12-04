@@ -9,7 +9,7 @@
       <view></view>
       <view class="vuc-scroll-slide-btns-wrap"><slot name="btns"></slot></view>
     </view>
-    <view class="vuc-scroll-slide-wrap" style="{{innerStyle}}" catchtap="toggleActive">
+    <view class="vuc-scroll-slide-wrap {{isActive ? 'active' : ''}}" style="{{innerStyle}}" catchtap="toggleActive">
       <slot name="cont"></slot>
     </view>
   </view>
@@ -98,19 +98,41 @@ Component({
   will-change: transform;
   font-size: 0;
   background-color: #fff;
-  padding-right: 1rem;
-  display: flex;
-  transition: transform .3s;
-  /*flex: 1 1 0;*/
+  padding-right: 2rem;
+  transition: all .3s;
+  box-shadow: .3rem 0 .4rem -.4rem #418dcb;
 }
 .vuc-scroll-slide-wrap>view{
-  flex: 1;
+  overflow: hidden;
 }
 .vuc-scroll-slide-wrap:after{
-  content: "4564";
-  font-size: 1rem;
+  position: absolute;
+  top: 50%;
+  right: .75rem;
+  transform: translateY(-50%);
+  width: 1rem;
+  height: 1rem;
+  box-sizing: border-box;
+  content: "";
   z-index: 10;
   display: inline-block;
+  border-left: 0 solid transparent;
+  border-right: .5rem solid  #418dcb;
+  border-top: .5rem solid transparent;
+  border-bottom: .5rem solid transparent;
+  transition: all .3s;
+}
+.vuc-scroll-slide-wrap.active{
+  border-right: 1px solid #f8f8f8;
+}
+.vuc-scroll-slide-wrap:active{
+  background-color: #eee;
+}
+.vuc-scroll-slide-wrap.active:after{
+  border-left: .5rem solid #418dcb;
+  border-right: 0 solid  transparent;
+  border-top: .5rem solid transparent;
+  border-bottom: .5rem solid transparent;
 }
 .vuc-scroll-slide-btns{
   position: absolute;
