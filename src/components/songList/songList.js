@@ -1,21 +1,17 @@
 
+  const audio = require("../../../tools/we-audio.js");
   const cmusic = require("../../../http/http.js");
   Component({
-    options: {
-      multipleSlots: true
-    },
-    properties: {
-      setSrc:{
-        type: Function,
-        value: null,
-      },
-    },
+    options: {multipleSlots: true},
     data: {
       songList: null,
     },
     methods: {
       setSrc(ev){
-        this.data.setSrc(ev);
+          const conf = ev.currentTarget.dataset.conf;
+          cmusic.songUrl({ id: conf.id })(res => {
+              audio.audio.src = res.data.data[0].url
+          });
       },
       setList (songList) {
         this.setData({

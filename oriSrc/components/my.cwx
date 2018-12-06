@@ -1,124 +1,177 @@
 <script role="json">
-  export default {
-    "component": true,
-    "usingComponents": {
-      "wrap": "../../wraps/wrap/wrap",
-      "header": "../../components/header/header",
-      "popup": "../../components/popup/popup",
-      "songList": "../../components/songList/songList",
-      "scroll": "../../components/scroll/scroll"
+    export default {
+        "component": true,
+        "usingComponents": {
+            "wrap": "../../wraps/wrap/wrap",
+            "header": "../../components/header/header",
+            "popup": "../../components/popup/popup",
+            "songList": "../../components/songList/songList",
+            "sheetList": "../../components/sheetList/sheetList",
+            "scroll": "../../components/scroll/scroll"
+        }
     }
-  }
-
 </script>
 <template>
-  <scroll-view scroll-y>
-    <view slot="cont" class="discover-page">
-
-      <view class="func-list">
-        <view bindtap="recommendSongs">每日推荐</view>
-        <view>歌单</view>
-        <view>排行榜</view>
-        <view bindtap="loginCmusic">登录</view>
-      </view>
-
-      <songList class="comp-songList" setSrc="{{setSrc}}"></songList>
-      <view class="song-list" wx:for="{{newSongList}}" wx:key="{{index}}" bindtap='setSrc' data-conf="{{item}}">
-        <!-- <image src="{{item.src}}"></image> -->
-        <view>
-          <view class="song-cont">
-            <view class="song-name">{{item.name}}</view>
-            <view class="song-artists">{{item.artists}}</view>
-          </view>
-          <view class="song-reason">{{item.reason}}</view>
-        </view>
-      </view>
-
+  <wrap>
+    <view class="func-list"  slot="header">
+      <view bindtap="showPage">刷页面</view>
+      <view bindtap="topPlaylist">最近播放</view>
     </view>
-  </scroll-view>
 
+    <view slot="content">
+      <scroll-view scroll-y>
+        <view slot="cont" class="discover-page">
+          <sheetList class="comp-sheetList" showSongList="{{showSongList}}"></sheetList>
+        </view>
+      </scroll-view>
+      <popup class="pop-conf-sheet" config="{{popConf}}">
+        <view slot="cont" class="song-list-wrap">
+          <view class="song-list-inner">
+            <scroll-view scroll-y><sheetList class="comp-sheetList" showSongList="{{showSongList}}"></sheetList></scroll-view>
+          </view>
+          <view bindtap="hideSheetPop" class="close-btn">X</view>
+        </view>
+      </popup>
 
+      <popup class="pop-conf" config="{{popConf}}">
+        <view slot="cont" class="song-list-wrap">
+          <view class="song-list-inner">
+            <scroll-view scroll-y><songList class="comp-recommend-songList"></songList></scroll-view>
+          </view>
+          <view bindtap="hideRecPop" class="close-btn">X</view>
+        </view>
+      </popup>
+    </view>
+  </wrap>
 </template>
 <script>
-  const cmusic = require("../../../http/http.js");
-  Component({
-    options: {
-      multipleSlots: true
-    },
-    properties: {
-      setSrc:{
-        type: Function,
-        value: null,
-      },
-    },
-    data: {
-      scrollConf: {
-        derction: 'x',
-        itemNum: {x:2, y:1},
-        index: {x: 1, y:0},
-        takeOneStepAtATime: true,
-      },
-      newSongList: [],
-      page1Scrollconf: { derction: 'y', },
-      page2Scrollconf: { derction: 'y', },
-      popConf: {}
-    },
-    methods: {
-      recommendSongs() {
-        cmusic.recommendSongs()(res => {
-          const _t = this.selectComponent(".comp-songList");
-          _t.setList(res.data.recommend);
-        })
-      },
-      personalizedNewsong(){
-        cmusic.personalizedNewsong()(res => {
-          const _t = this.selectComponent(".comp-songList");
-          _t.setList(res.data.result);
-        })
-      },
-    },
-    attached: function (options) {
-      this.personalizedNewsong();
-    },
-    onReady: function () {
+    const cmusic = require("../../../http/http.js");
+    Component({
+        options: {
+            multipleSlots: true
+        },
+        properties: {},
+        data: {
+            scrollConf: {
+                derction: 'x',
+                itemNum: {x:2, y:1},
+                index: {x: 1, y:0},
+                takeOneStepAtATime: true,
+            },
+            page1Scrollconf: { derction: 'y', },
+            page2Scrollconf: { derction: 'y', },
+            popConf: {stop: true},
 
-    },
-    onShow: function () {
+        },
+        methods: {
+            showSongList(ev){
+                const conf = ev.currentTarget.dataset.conf;
+                cmusic.playlistDetail({id: conf.id})(res => {
+                    const tracks = res.data.playlist.tracks;
+                    const _t = this.selectComponent(".comp-recommend-songList");
+                    _t.setList(tracks);
+                    const _pop = this.selectComponent(".pop-conf");
+                    _pop.showPop(_pop);
 
-    },
-    onHide: function () {
+                })
+            },
+            showSheetPop(){
+                const _pop = this.selectComponent(".pop-conf-sheet");
+                _pop.showPop(_pop);
+            },
+            hideSheetPop(){
+                const _pop = this.selectComponent(".pop-conf-sheet");
+                _pop.hidePop(_pop);
+            },
+            showRecPop(){
+                const _pop = this.selectComponent(".pop-conf");
+                _pop.showPop(_pop);
+            },
+            hideRecPop(){
+                const _pop = this.selectComponent(".pop-conf");
+                _pop.hidePop(_pop);
+            },
+            topPlaylist(){
+                cmusic.topPlaylist()(res => {
+                    const _pop = this.selectComponent(".comp-sheetList");
+                    _pop.setList(res.data.playlists);
+                    this.showSheetPop();
+                })
+            },
+            recommendSongs() {
+                cmusic.recommendSongs()(res => {
+                    const _t = this.selectComponent(".comp-recommend-songList");
+                    _t.setList(res.data.recommend);
+                    this.showRecPop();
+                })
+            },
+            personalizedNewsong(){
+                cmusic.personalizedNewsong()(res => {
+                    const _t = this.selectComponent(".comp-songList");
+                    _t.setList(res.data.result);
+                })
+            },
+            showPage(){
+                const _t = this;
+                wx.getStorage({
+                    key: "wxcmusicuserinfo",
+                    success(res) {
+                        const account = res.data.account;
+                        cmusic.userPlaylist({uid: account.id})(res => {
+                            const _pop = _t.selectComponent(".comp-sheetList");
+                            _pop.setList(res.data.playlist);
+                        });
+                    },
+                    fail(err){console.log(err)},
+                });
+            },
+        },
+        attached: function (options) {
+            this.showPage();
+            this.setData({showSongList:ev => this.showSongList(ev)});
+        },
+        onReady: function () {
 
-    },
-    onUnload: function () {
+        },
+        onShow: function () {
 
-    },
-    onPullDownRefresh: function () {
+        },
+        onHide: function () {
 
-    },
-    onReachBottom: function () {
+        },
+        onUnload: function () {
 
-    },
-    onShareAppMessage: function () {
+        },
+        onPullDownRefresh: function () {
 
-    }
-  })
+        },
+        onReachBottom: function () {
 
+        },
+        onShareAppMessage: function () {
+
+        }
+    })
 </script>
 <style>
-  scroll-view{
+  .song-list-wrap{
     height: 100%;
+    display: flex;
+    box-orient:vertical;
+    flex-direction:column;
+    background-color: #fff;
+    border-top: 1px solid #f8f8f8;
   }
-  .vuc-tab{
-    display: flex
+  .song-list-inner{
+    flex: 1 1 0;
+    position: relative;
   }
-  .vuc-tab>view{
-    flex: 1;
-    text-align: center;
-    line-height: 2.5rem;
-    font-size: .7rem;
-  }
-  .vuc-tab>view.active{
-    color: #418dcb;
+  scroll-view{
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
   }
   .discover-page{
     font-size: 1rem;
@@ -129,6 +182,7 @@
   .func-list{
     display: flex;
     padding: .2rem;
+    flex: 0 0 auto;
   }
   .func-list>view{
     margin: .2rem;
@@ -140,5 +194,17 @@
     color: #fff;
     border-radius: .2rem;
   }
-
+  .close-btn{
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    width: 2rem;
+    height: 2rem;
+    line-height: 2rem;
+    color: #fff;
+    text-align: center;
+    border-radius: .5rem;
+    background-color: #418dcb;
+    font-size: .6rem;
+  }
 </style>

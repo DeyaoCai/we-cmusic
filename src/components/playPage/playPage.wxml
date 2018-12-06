@@ -1,6 +1,6 @@
 
   <scrollSlide wx:for="{{songList}}" wx:key="{{index}}" config="{{item}}">
-    <view class="song-list" slot="cont">
+    <view class="song-list" bindtap='setSrc' data-conf="{{item}}" slot="cont">
       <!-- <image src="{{item.src}}"></image> -->
       <view>
         <view class="song-cont">
@@ -11,7 +11,7 @@
       </view>
     </view>
     <view slot="btns" class="song-btns">
-      <view bindtap='setSrc' data-conf="{{item}}" >播放</view>
+      <view>播放全部</view>
       <view>喜欢</view>
     </view>
   </scrollSlide>

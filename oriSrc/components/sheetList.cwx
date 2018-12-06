@@ -1,20 +1,28 @@
 <script role="json">
   export default {
-    "component": true
+    "component": true,
+    usingComponents: {
+        scrollSlide: "../scrollSlide/scrollSlide"
+    }
   }
 </script>
 <template>
-  <view class="sheet-list" wx:for="{{sheetList}}" wx:key="{{index}}" bindtap='showSongList' data-conf="{{item}}">
-    <!-- <image src="{{item.picUrl || item.coverImgUrl}}"></image> -->
-    <view>
-      <view class="sheet-cont">
-        <view class="sheet-name">{{item.name}}</view>
-        <view class="sheet-artists">{{item.creator.nickname}}</view>
+  <scrollSlide wx:for="{{sheetList}}" wx:key="{{index}}" config="{{item}}">
+    <view class="sheet-list" catchtap='showSongList' data-conf="{{item}}" slot="cont">
+      <!-- <image src="{{item.picUrl || item.coverImgUrl}}"></image> -->
+      <view>
+        <view class="sheet-cont">
+          <view class="sheet-name">{{item.name}}</view>
+          <view class="sheet-artists">{{item.creator.nickname}}</view>
+        </view>
+        <view class="sheet-reason">{{item.copywriter || item.description}}</view>
       </view>
-      <view class="sheet-reason">{{item.copywriter || item.description}}</view>
     </view>
-  </view>
-
+    <view slot="btns" class="sheet-btns">
+      <view>播放全部</view>
+      <view>喜欢</view>
+    </view>
+  </scrollSlide>
 </template>
 <script>
   const cmusic = require("../../../http/http.js");
@@ -36,7 +44,6 @@
         this.data.showSongList(ev);
       },
       setList (sheetList) {
-        console.log(sheetList)
         this.setData({
           sheetList: sheetList,
         })
@@ -78,6 +85,12 @@
     padding-left: .4rem;
     color: #999;
     font-size: .55rem;
+  }
+  .sheet-btns>view{
+    display: inline-block;
+    text-align: center;
+    line-height: 3rem;
+    padding: 0 .6rem;
   }
 
 </style>

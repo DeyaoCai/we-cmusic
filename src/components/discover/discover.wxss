@@ -39,3 +39,19 @@
     color: #fff;
     border-radius: .2rem;
   }
+  .func-list>view:active{
+    opacity: .9;
+  }
+  .close-btn{
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    width: 2rem;
+    height: 2rem;
+    line-height: 2rem;
+    color: #fff;
+    text-align: center;
+    border-radius: .5rem;
+    background-color: #418dcb;
+    font-size: .6rem;
+  }

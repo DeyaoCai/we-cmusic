@@ -18,7 +18,6 @@
         this.data.showSongList(ev);
       },
       setList (sheetList) {
-        console.log(sheetList)
         this.setData({
           sheetList: sheetList,
         })

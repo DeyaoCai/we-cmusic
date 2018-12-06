@@ -1,9 +1,6 @@
 
+  const audio = require("../../../tools/we-audio.js");
   const cmusic = require("../../../http/http.js");
-  const audio = wx.createInnerAudioContext();
-  audio.autoplay = true;
-  audio.loop = true;
-  audio.volume = .3;
 
   Page({
     data: {
@@ -15,25 +12,24 @@
         takeOneStepAtATime: true,
       },
       newSongList: [],
-      page1Scrollconf: { derction: 'y', },
-      page2Scrollconf: { derction: 'y', },
       popConf: {},
-      setSrc(ev){
-        const conf = ev.currentTarget.dataset.conf;
-        cmusic.songUrl({ id: conf.id })(res => {
-          audio.src = res.data.data[0].url
-        });
-      },
     },
-    loginCmusic(){
-      cmusic.loginCellphone({phone: "16621079485", password: "a13789"})(res=>{
-        wx.setStorage({
-          key: "wxcmusiccookie",
-          data: res.header['Set-Cookie'],
-          success(){},
-          fail(){console.log("fail")}
-        })
-      });
+
+      loginCmusic() {
+        cmusic.loginCellphone({ phone: "16621079485", password: "a13789" })(res => {
+            wx.setStorage({
+                key: "wxcmusiccookie",
+                data: res.header['Set-Cookie'],
+                success() {},
+                fail() { console.log("fail") }
+            })
+            wx.setStorage({
+                key: "wxcmusicuserinfo",
+                data: res.data,
+                success() {},
+                fail() { console.log("fail") }
+            })
+        });
     },
     recommendSongs() {
       const { data } = this;

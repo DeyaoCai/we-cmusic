@@ -1,39 +1,33 @@
 
-  <scroll-view scroll-y>
-    <view slot="cont" class="discover-page">
-      <view class="func-list">
-        <view bindtap="recommendSongs">每日推荐</view>
-        <view bindtap="topPlaylist">歌单</view>
-        <view>排行榜</view>
-        <view bindtap="loginCmusic">登录</view>
-      </view>
+  <wrap>
 
-      <songList class="comp-songList" setSrc="{{setSrc}}"></songList>
+    <view class="func-list"  slot="header">
+      <view bindtap="recommendSongs">每日推荐</view>
+      <view bindtap="topPlaylist">歌单</view>
     </view>
-  </scroll-view>
-  <popup class="pop-conf-sheet" config="{{popConf}}">
-    <view slot="cont" class="song-list-wrap">
-      <view class="func-list">
-        <view>全部播放</view>
-        <view bindtap="hideSheetPop">关闭</view>
-      </view>
-      <view class="song-list-inner">
+
+    <view slot="content">
       <scroll-view scroll-y>
-        <sheetList class="comp-sheetList" showSongList="{{showSongList}}"></sheetList>
+        <view slot="cont" class="discover-page">
+          <songList class="comp-songList"></songList>
+        </view>
       </scroll-view>
-      </view>
+      <popup class="pop-conf-sheet" config="{{popConf}}">
+        <view slot="cont" class="song-list-wrap">
+          <view class="song-list-inner">
+            <scroll-view scroll-y><sheetList class="comp-sheetList" showSongList="{{showSongList}}"></sheetList></scroll-view>
+          </view>
+          <view bindtap="hideSheetPop" class="close-btn">X</view>
+        </view>
+      </popup>
+
+      <popup class="pop-conf" config="{{popConf}}">
+        <view slot="cont" class="song-list-wrap">
+          <view class="song-list-inner">
+            <scroll-view scroll-y><songList class="comp-recommend-songList"></songList></scroll-view>
+          </view>
+            <view bindtap="hideRecPop" class="close-btn">X</view>
+        </view>
+      </popup>
     </view>
-  </popup>
-  <popup class="pop-conf" config="{{popConf}}">
-    <view slot="cont" class="song-list-wrap">
-      <view class="func-list">
-        <view>全部播放</view>
-        <view bindtap="hideRecPop">关闭</view>
-      </view>
-      <view class="song-list-inner">
-        <scroll-view scroll-y>
-          <songList class="comp-recommend-songList" setSrc="{{setSrc}}"></songList>
-        </scroll-view>
-      </view>
-    </view>
-  </popup>
+  </wrap>

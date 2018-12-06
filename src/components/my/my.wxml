@@ -1,27 +1,32 @@
 
-  <scroll-view scroll-y>
-    <view slot="cont" class="discover-page">
-
-      <view class="func-list">
-        <view bindtap="recommendSongs">每日推荐</view>
-        <view>歌单</view>
-        <view>排行榜</view>
-        <view bindtap="loginCmusic">登录</view>
-      </view>
-
-      <songList class="comp-songList" setSrc="{{setSrc}}"></songList>
-      <view class="song-list" wx:for="{{newSongList}}" wx:key="{{index}}" bindtap='setSrc' data-conf="{{item}}">
-        <!-- <image src="{{item.src}}"></image> -->
-        <view>
-          <view class="song-cont">
-            <view class="song-name">{{item.name}}</view>
-            <view class="song-artists">{{item.artists}}</view>
-          </view>
-          <view class="song-reason">{{item.reason}}</view>
-        </view>
-      </view>
-
+  <wrap>
+    <view class="func-list"  slot="header">
+      <view bindtap="showPage">刷页面</view>
+      <view bindtap="topPlaylist">最近播放</view>
     </view>
-  </scroll-view>
 
+    <view slot="content">
+      <scroll-view scroll-y>
+        <view slot="cont" class="discover-page">
+          <sheetList class="comp-sheetList" showSongList="{{showSongList}}"></sheetList>
+        </view>
+      </scroll-view>
+      <popup class="pop-conf-sheet" config="{{popConf}}">
+        <view slot="cont" class="song-list-wrap">
+          <view class="song-list-inner">
+            <scroll-view scroll-y><sheetList class="comp-sheetList" showSongList="{{showSongList}}"></sheetList></scroll-view>
+          </view>
+          <view bindtap="hideSheetPop" class="close-btn">X</view>
+        </view>
+      </popup>
 
+      <popup class="pop-conf" config="{{popConf}}">
+        <view slot="cont" class="song-list-wrap">
+          <view class="song-list-inner">
+            <scroll-view scroll-y><songList class="comp-recommend-songList"></songList></scroll-view>
+          </view>
+          <view bindtap="hideRecPop" class="close-btn">X</view>
+        </view>
+      </popup>
+    </view>
+  </wrap>

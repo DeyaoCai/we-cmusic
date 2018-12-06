@@ -1,44 +1,13 @@
-<script role="json">
-  export default {
-    component: true,
-    usingComponents: {
-        scrollSlide: "../scrollSlide/scrollSlide"
-    }
-  }
-</script>
-<template>
-  <scrollSlide wx:for="{{songList}}" wx:key="{{index}}" config="{{item}}">
-    <view class="song-list" slot="cont">
-      <!-- <image src="{{item.src}}"></image> -->
-      <view>
-        <view class="song-cont">
-          <view class="song-name">{{item.name}}</view>z
-          <view class="song-artists">{{item.artists}}</view>
-        </view>
-        <view class="song-reason">{{item.reason}}</view>
-      </view>
-    </view>
-    <view slot="btns" class="song-btns">
-      <view bindtap='setSrc' data-conf="{{item}}" >播放</view>
-      <view>喜欢</view>
-    </view>
-  </scrollSlide>
-</template>
-<script>
-  const audio = require("../../../tools/we-audio.js");
+
   const cmusic = require("../../../http/http.js");
   Component({
     options: {multipleSlots: true},
-    data: {
-      songList: null,
+    properties: {
+      setSrc:{type: Function, value: null,},
     },
+    data: {songList: null,},
     methods: {
-      setSrc(ev){
-          const conf = ev.currentTarget.dataset.conf;
-          cmusic.songUrl({ id: conf.id })(res => {
-              audio.audio.src = res.data.data[0].url
-          });
-      },
+      setSrc(ev){this.data.setSrc(ev);},
       setList (songList) {
         this.setData({
           songList: this.getSongDto(songList),
@@ -91,45 +60,3 @@
     }
   })
 
-</script>
-<style>
-  .song-list{
-    display: flex;
-    background-color: #fff;
-    padding: .65rem;
-    border-top: 1px dashed #eee;
-  }
-  .song-list>view{
-    text-align: left;
-    flex: 1;
-  }
-  .song-list>image{
-    width: 3rem;
-    height: 3rem;
-  }
-  .song-cont{
-    padding-bottom: .4rem;
-    padding-left: .4rem;
-  }
-  .song-name{
-    display: inline-block;
-    font-size: .65rem;
-  }
-  .song-artists{
-    padding-left: .4rem;
-    display: inline-block;
-    color: #999;
-    font-size: .55rem;
-  }
-  .song-reason{
-    padding-left: .4rem;
-    color: #999;
-    font-size: .55rem;
-  }
-  .song-btns>view{
-    display: inline-block;
-    text-align: center;
-    line-height: 3rem;
-    padding: 0 .6rem;
-  }
-</style>

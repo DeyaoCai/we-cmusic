@@ -1,1 +1,1 @@
-{"component":true,"usingComponents":{"wrap":"../../wraps/wrap/wrap","header":"../../components/header/header","popup":"../../components/popup/popup","songList":"../../components/songList/songList","scroll":"../../components/scroll/scroll"}}
+{"component":true,"usingComponents":{"wrap":"../../wraps/wrap/wrap","header":"../../components/header/header","popup":"../../components/popup/popup","songList":"../../components/songList/songList","sheetList":"../../components/sheetList/sheetList","scroll":"../../components/scroll/scroll"}}

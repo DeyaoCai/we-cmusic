@@ -1,18 +1,22 @@
 
-  scroll-view{
+  .song-list-wrap{
     height: 100%;
+    display: flex;
+    box-orient:vertical;
+    flex-direction:column;
+    background-color: #fff;
+    border-top: 1px solid #f8f8f8;
   }
-  .vuc-tab{
-    display: flex
+  .song-list-inner{
+    flex: 1 1 0;
+    position: relative;
   }
-  .vuc-tab>view{
-    flex: 1;
-    text-align: center;
-    line-height: 2.5rem;
-    font-size: .7rem;
-  }
-  .vuc-tab>view.active{
-    color: #418dcb;
+  scroll-view{
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
   }
   .discover-page{
     font-size: 1rem;
@@ -23,6 +27,7 @@
   .func-list{
     display: flex;
     padding: .2rem;
+    flex: 0 0 auto;
   }
   .func-list>view{
     margin: .2rem;
@@ -34,4 +39,16 @@
     color: #fff;
     border-radius: .2rem;
   }
-
+  .close-btn{
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    width: 2rem;
+    height: 2rem;
+    line-height: 2rem;
+    color: #fff;
+    text-align: center;
+    border-radius: .5rem;
+    background-color: #418dcb;
+    font-size: .6rem;
+  }
